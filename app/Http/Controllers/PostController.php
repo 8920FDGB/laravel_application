@@ -42,4 +42,14 @@ class PostController extends Controller
         // 投稿一覧画面にリダイレクトさせる
         return redirect()->route('post.index');
     }
+
+    //詳細表示処理
+    public function show($id)
+    {
+        // 投稿データのIDでモデルから投稿を１件取得
+        $post = Post::findOrFail($id);
+
+        // show.blade.phpを表示する
+        return view('posts.show', ['post' => $post]);
+    }
 }
