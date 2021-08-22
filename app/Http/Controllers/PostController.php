@@ -52,4 +52,39 @@ class PostController extends Controller
         // show.blade.phpを表示する
         return view('posts.show', ['post' => $post]);
     }
+
+    // 編集画面表示しょり
+    public function edit($id)
+    {
+        // 投稿データのIDでモデルから投稿を１件取得
+        $post = Post::findOrFail($id);
+
+        // 投稿者以外の編集を防ぐ
+        if ($post->user_id !== Auth::id()) {
+            return redirect('/');
+        }
+
+        // edit.blade.phpを表示する
+        return view('posts.edit', ['post' => $post]);
+    }
+
+    // 編集更新処理
+    public function update(PostRequest $request, $id)
+    {
+        // 投稿データのIDでモデルから東欧を１件取得
+        $post = Post::findOrFail($id);
+
+        // 投稿者以外の編集を防ぐ
+        if ($post->user_id !== Auth::id()) {
+            return redirect('/');
+        }
+
+        // 投稿画面から受け取ったデータをインスタンスに反映
+        $post->title = $request->title;
+        $post->body = $request->body;
+
+        $post->save(); // DBのレコードを更新
+
+        return redirect('/');
+    }
 }
