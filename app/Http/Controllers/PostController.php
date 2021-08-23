@@ -22,6 +22,9 @@ class PostController extends Controller
     // 登録（投稿）画面表示
     public function create()
     {
+        // Q11コントローラーの処理が通っているかの確認
+        dd('投稿画面だよ！！');
+
         // create.blade.phpを表示する
         return view('posts.create');
     }
@@ -53,11 +56,14 @@ class PostController extends Controller
         return view('posts.show', ['post' => $post]);
     }
 
-    // 編集画面表示しょり
+    // 編集画面表示処理
     public function edit($id)
     {
         // 投稿データのIDでモデルから投稿を１件取得
         $post = Post::findOrFail($id);
+
+        // Q11コントローラーの処理が通っているかの確認
+        dd($post);
 
         // 投稿者以外の編集を防ぐ
         if ($post->user_id !== Auth::id()) {
